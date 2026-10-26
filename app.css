@@ -1,0 +1,59 @@
+.cc-ar-h { font-size: .62em; font-weight: 600; color: var(--text-3); margin-inline-start: 10px; letter-spacing: 0; }
+.cc-sub, .faint [lang="ar"] { color: var(--text-3); font-weight: 500; }
+.cc-cur { min-width: min(100%, 360px); }
+.cc-small { margin: 8px 0 0; font-size: 12.5px; }
+.cc-grid { display: grid; grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr); gap: 18px; align-items: start; }
+@media (max-width: 860px) { .cc-grid { grid-template-columns: minmax(0, 1fr); } }
+.cc-side { position: sticky; top: 76px; }
+@media (max-width: 860px) { .cc-side { position: static; } }
+
+.cc-rows { display: flex; flex-direction: column; gap: 4px; }
+.cc-group { display: flex; justify-content: space-between; font-size: 12px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: var(--text-3); padding: 10px 2px 4px; }
+.cc-group:first-child { padding-top: 0; }
+.cc-group [lang="ar"] { letter-spacing: 0; font-size: 13px; }
+.cc-row { display: grid; grid-template-columns: minmax(0, 1fr) auto minmax(86px, auto); gap: 10px; align-items: center; padding: 5px 6px; border-radius: 12px; }
+.cc-row.has { background: var(--surface-2); }
+.cc-den { display: flex; align-items: center; gap: 8px; min-width: 0; cursor: pointer; }
+.cc-chip { display: inline-flex; align-items: center; justify-content: center; min-width: 84px; height: 34px; padding: 0 10px; border-radius: 8px; font-weight: 700; font-size: 14px; white-space: nowrap; font-variant-numeric: tabular-nums; }
+.cc-chip.note { background: var(--accent-soft); color: var(--accent); border: 1px solid rgba(61, 214, 208, .25); }
+.cc-chip.coin { background: var(--coffee-soft); color: var(--coffee); border-radius: 999px; border: 1px solid rgba(245, 185, 113, .25); }
+.cc-den-ar { color: var(--text-3); font-size: 13.5px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.cc-step { display: flex; align-items: center; gap: 2px; }
+.cc-step .btn.icon { width: 34px; height: 34px; font-size: 18px; }
+.cc-q { width: 76px; text-align: center; font-weight: 700; font-variant-numeric: tabular-nums; padding-left: 6px; padding-right: 6px; }
+.cc-q.bad { border-color: var(--danger); }
+.cc-sum { text-align: right; font-size: 14px; color: var(--text-2); white-space: nowrap; }
+.cc-row.has .cc-sum { color: var(--text); font-weight: 600; }
+
+.cc-total-card { display: flex; flex-direction: column; gap: 4px; }
+.cc-total { font-size: clamp(34px, 5vw, 46px); font-weight: 780; letter-spacing: -.02em; color: var(--accent); font-variant-numeric: tabular-nums; line-height: 1.15; overflow-wrap: anywhere; }
+.cc-expect { margin-top: 12px; padding-top: 14px; border-top: 1px solid var(--line); display: flex; flex-direction: column; gap: 10px; }
+.cc-diff:empty { display: none; }
+.cc-diff { display: flex; justify-content: space-between; align-items: center; gap: 10px; padding: 10px 14px; border-radius: 12px; font-size: 14px; }
+.cc-diff b { font-size: 18px; font-variant-numeric: tabular-nums; }
+.cc-diff.ok { background: rgba(110, 231, 168, .12); color: var(--ok); }
+.cc-diff.over { background: var(--coffee-soft); color: var(--warn); }
+.cc-diff.bad { background: var(--danger-soft); color: var(--danger); }
+[data-theme="light"] .cc-diff.ok { color: #0f7a46; }
+[data-theme="light"] .cc-diff.over { color: #8a5a00; }
+.cc-notes { min-height: 80px; }
+
+@media (max-width: 480px) {
+  .cc-row { grid-template-columns: minmax(0, 1fr) auto; row-gap: 2px; }
+  .cc-sum { grid-column: 1 / -1; text-align: right; font-size: 13px; }
+  .cc-row:not(.has) .cc-sum { display: none; }
+  .cc-chip { min-width: 72px; font-size: 13px; }
+  .cc-q { width: 62px; }
+}
+
+.cc-print { display: none; }
+@media print {
+  .cc-print { display: block; color: #000; }
+  .cc-grid { display: block; }
+  .cc-total-card { display: none; }
+  .cc-print table { width: 100%; border-collapse: collapse; margin: 12px 0; }
+  .cc-print th, .cc-print td { border-bottom: 1px solid #ccc; padding: 6px 8px; text-align: left; }
+  .cc-print td:last-child, .cc-print th:last-child { text-align: right; }
+  .cc-print tr.tot td { font-weight: 700; border-top: 2px solid #000; }
+  .cc-pnotes { white-space: pre-wrap; }
+}

@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self'; media-src 'self' data: blob:; connect-src 'self' data: blob:; worker-src 'self' blob:; manifest-src 'self'; form-action 'none'; base-uri 'none'; object-src 'none'">
+<meta name="referrer" content="no-referrer">
+<title>Cash Counter — Count Notes and Coins, JOD, USD, EUR, SAR, AED | S3eidat Tools</title>
+<meta name="description" content="Count a cash drawer by notes and coins: Jordanian dinar (3 decimals), US dollar, euro, Saudi riyal, UAE dirham, pound sterling, Kuwaiti dinar, Egyptian pound or your own. Exact totals, expected vs counted difference, print or copy. Free and private.">
+<meta property="og:title" content="Cash Counter — عدّاد النقود">
+<meta property="og:description" content="Count notes and coins with exact totals and the difference from what you expected. Runs 100% in your browser.">
+<link rel="icon" href="kit/icon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="kit/kit.css">
+<link rel="stylesheet" href="app.css">
+<script src="kit/kit.js"></script>
+<!--s3:seo-->
+<link rel="canonical" href="https://s3eidat.github.io/cash-counter/">
+<link rel="manifest" href="manifest.webmanifest">
+<meta name="theme-color" content="#0d0f12">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="S3eidat Tools">
+<meta property="og:url" content="https://s3eidat.github.io/cash-counter/">
+<meta property="og:image" content="https://s3eidat.github.io/cash-counter/screenshot.png">
+<meta property="og:image:width" content="1280"><meta property="og:image:height" content="800">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Cash Counter — Count cash by notes and coins">
+<meta name="twitter:description" content="Count cash by notes and coins. Free, private and runs 100% in your browser: no sign-up, no uploads.">
+<meta name="twitter:image" content="https://s3eidat.github.io/cash-counter/screenshot.png">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebApplication", "name": "Cash Counter", "url": "https://s3eidat.github.io/cash-counter/", "description": "Count cash by notes and coins. Free, private and runs 100% in your browser: no sign-up, no uploads.", "applicationCategory": "UtilitiesApplication", "operatingSystem": "Any (web browser)", "isAccessibleForFree": true, "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"}, "image": "https://s3eidat.github.io/cash-counter/screenshot.png", "author": {"@type": "Person", "name": "s3eidat", "url": "https://github.com/s3eidat"}}</script>
+<!--/s3:seo-->
+</head>
+<body data-tool="cash-counter">
+<main class="s3-main">
+  <section class="s3-hero no-print">
+    <h1>Cash Counter <span class="cc-ar-h" lang="ar" dir="rtl">عدّاد النقود</span></h1>
+    <p>Type how many of each note and coin you have. Totals are exact to the last fils or cent, and you see at once if the drawer is over or short.</p>
+  </section>
+
+  <section class="card no-print">
+    <div class="row between">
+      <label class="field cc-cur">Currency <span class="cc-sub" lang="ar">العملة</span>
+        <select class="select" id="cur"></select>
+      </label>
+      <div class="row">
+        <button class="btn ghost small" id="clear"><svg class="i"><use href="#i-trash"/></svg><span id="clear-l">Clear counts</span></button>
+      </div>
+    </div>
+    <div class="cc-custom mt" id="custom" hidden>
+      <div class="grid-3">
+        <label class="field">Name or code <span class="cc-sub" lang="ar">الاسم</span><input class="input" id="c-name" dir="auto" autocomplete="off" maxlength="24"></label>
+        <label class="field">Decimals <span class="cc-sub" lang="ar">الخانات العشرية</span>
+          <select class="select" id="c-dec"><option value="0">0 (whole units)</option><option value="2">2 (cents)</option><option value="3">3 (fils)</option></select>
+        </label>
+        <span></span>
+      </div>
+      <div class="grid-2 mt">
+        <label class="field">Notes <span class="cc-sub" lang="ar">الأوراق النقدية</span><input class="input" id="c-notes" autocomplete="off" placeholder="100, 50, 20, 10, 5"></label>
+        <label class="field">Coins <span class="cc-sub" lang="ar">العملات المعدنية</span><input class="input" id="c-coins" autocomplete="off" placeholder="1, 0.5, 0.25, 0.1"></label>
+      </div>
+      <p class="faint cc-small">Separate values with commas. Changes apply as you type.</p>
+    </div>
+  </section>
+
+  <div class="cc-grid mt">
+    <section class="card no-print">
+      <div class="cc-rows" id="rows"></div>
+    </section>
+
+    <div class="cc-side">
+      <section class="card cc-total-card">
+        <span class="faint">Counted <span lang="ar">· المجموع</span></span>
+        <b class="cc-total" id="total">0</b>
+        <span class="muted" id="pieces"></span>
+        <div class="cc-expect no-print">
+          <label class="field">Expected amount <span class="cc-sub" lang="ar">المبلغ المتوقع</span>
+            <input class="input" id="expected" inputmode="decimal" autocomplete="off" placeholder="e.g. 250">
+          </label>
+          <div class="cc-diff" id="diff"></div>
+        </div>
+      </section>
+
+      <section class="card mt no-print">
+        <label class="field">Notes <span class="cc-sub" lang="ar">ملاحظات</span>
+          <textarea class="textarea prose cc-notes" id="notes" dir="auto" placeholder="Shift, drawer, who counted…"></textarea>
+        </label>
+        <div class="row mt">
+          <button class="btn primary" id="copy"><svg class="i"><use href="#i-copy"/></svg>Copy summary</button>
+          <button class="btn" id="print"><svg class="i"><use href="#i-file"/></svg>Print</button>
+          <button class="btn" id="csv"><svg class="i"><use href="#i-download"/></svg>CSV</button>
+        </div>
+        <p class="faint cc-small">Counts are saved in this browser for each currency.</p>
+      </section>
+    </div>
+  </div>
+
+  <section class="cc-print" id="sheet" aria-hidden="true"></section>
+</main>
+<script src="app.js"></script>
+</body>
+</html>
